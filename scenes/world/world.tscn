@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dodk0gonc5nx0"]
+[gd_scene load_steps=9 format=3 uid="uid://dodk0gonc5nx0"]
 
 [ext_resource type="Script" path="res://scenes/world/world.gd" id="1_cmh7x"]
 [ext_resource type="PackedScene" uid="uid://dwdgt3flp2jir" path="res://scenes/player/player.tscn" id="1_oyxbq"]
@@ -16,14 +16,27 @@ sky = SubResource("Sky_3emca")
 ambient_light_source = 3
 reflected_light_source = 2
 
-[node name="World" type="Node"]
+[sub_resource type="BoxMesh" id="BoxMesh_txusv"]
+
+[node name="World" type="Node" node_paths=PackedStringArray("world_environment")]
 script = ExtResource("1_cmh7x")
 world_resource = ExtResource("2_gd4ef")
+world_environment = NodePath("WorldEnvironment")
 chunk_scene = ExtResource("3_7iqs6")
 player_scene = ExtResource("1_oyxbq")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.819152, 0.32899, 0.469846, -7.16125e-08, -0.819152, 0.573576, 0.573576, -0.469846, -0.67101, 0, 0, 0)
+light_bake_mode = 0
+shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jqa0y")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.615831, -14.6235)
+light_color = Color(0.613202, 0.000276463, 0.613198, 1)
+light_energy = 4.92
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="OmniLight3D"]
+mesh = SubResource("BoxMesh_txusv")

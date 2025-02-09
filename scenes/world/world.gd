@@ -1,6 +1,7 @@
 extends Node
 
 @export var world_resource: WorldSettings
+@export var world_environment: WorldEnvironment
 @export var chunk_scene: PackedScene
 @export var player_scene: PackedScene
 
@@ -8,7 +9,11 @@ extends Node
 var loaded_chunks = {}
 
 func _ready():
-	# Set up player
+	world_environment.environment.fog_enabled = true
+	world_environment.environment.fog_mode = Environment.FOG_MODE_DEPTH
+	world_environment.environment.fog_depth_end = world_resource.render_distance * world_resource.chunk_size
+	world_environment.environment.fog_depth_begin = 0
+	
 	player_instance.transform.origin = Vector3(0, 10, 0)
 	add_child(player_instance)
 	update_chunks(player_instance.transform.origin)
