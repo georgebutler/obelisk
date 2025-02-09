@@ -15,8 +15,8 @@ func generate_chunk():
 	if not world_resource or not world_resource.noise:
 		return
 
-	var chunk_size = world_resource.chunk_size
-	var resolution = world_resource.resolution
+	var chunk_size = float(world_resource.chunk_size)  # Convert to float
+	var resolution = float(world_resource.resolution)  # Convert to float
 	var noise = world_resource.noise
 
 	var vertices = PackedVector3Array()
@@ -24,15 +24,15 @@ func generate_chunk():
 	var colors = PackedColorArray()
 
 	# Calculate the actual world position of this chunk's origin
-	var chunk_world_x = global_position.x # Multiply by 2 to account for the division in world.gd
+	var chunk_world_x = global_position.x
 	var chunk_world_z = global_position.z
 
 	# Generate vertices and colors
-	for x in range(resolution + 1):
-		for z in range(resolution + 1):
+	for x in range(int(resolution) + 1):
+		for z in range(int(resolution) + 1):
 			# Calculate the actual world coordinates for noise sampling
-			var world_x = chunk_world_x + (x * chunk_size / resolution)
-			var world_z = chunk_world_z + (z * chunk_size / resolution)
+			var world_x = chunk_world_x + (float(x) * chunk_size / resolution)
+			var world_z = chunk_world_z + (float(z) * chunk_size / resolution)
 			
 			# Apply noise scale from world settings
 			var scaled_x = world_x * world_resource.noise_scale
@@ -42,25 +42,25 @@ func generate_chunk():
 			var height = noise.get_noise_2d(scaled_x, scaled_z) * world_resource.height_scale
 
 			# Calculate local vertex position within the chunk
-			var vertex_x = (x * chunk_size / resolution)
-			var vertex_z = (z * chunk_size / resolution)
+			var vertex_x = float(x) * chunk_size / resolution
+			var vertex_z = float(z) * chunk_size / resolution
 			var vertex = Vector3(vertex_x, height, vertex_z)
 			vertices.append(vertex)
 
 			# Height-based color
-			var color_value = (height / world_resource.height_scale + 1) / 2  # Normalize to 0-1 range
+			var color_value = (height / world_resource.height_scale + 1.0) / 2.0  # Normalize to 0-1 range
 			colors.append(Color(color_value, color_value, color_value))
 
 	# Generate indices for triangles
-	for x in range(resolution):
-		for z in range(resolution):
-			var i = x * (resolution + 1) + z
+	for x in range(int(resolution)):
+		for z in range(int(resolution)):
+			var i = x * (int(resolution) + 1) + z
 			indices.append(i)
-			indices.append(i + resolution + 1)
+			indices.append(i + int(resolution) + 1)
 			indices.append(i + 1)
 			indices.append(i + 1)
-			indices.append(i + resolution + 1)
-			indices.append(i + resolution + 2)
+			indices.append(i + int(resolution) + 1)
+			indices.append(i + int(resolution) + 2)
 
 	# Create ArrayMesh
 	var arr_mesh = ArrayMesh.new()
