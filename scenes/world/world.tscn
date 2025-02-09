@@ -1,0 +1,29 @@
+[gd_scene load_steps=8 format=3 uid="uid://dodk0gonc5nx0"]
+
+[ext_resource type="Script" path="res://scenes/world/world.gd" id="1_cmh7x"]
+[ext_resource type="PackedScene" uid="uid://dwdgt3flp2jir" path="res://scenes/player/player.tscn" id="1_oyxbq"]
+[ext_resource type="Resource" uid="uid://bsofaiisj7avc" path="res://resources/world_settings.tres" id="2_gd4ef"]
+[ext_resource type="PackedScene" uid="uid://bp880g4mcr2h0" path="res://scenes/chunk/chunk.tscn" id="3_7iqs6"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_i0wiw"]
+
+[sub_resource type="Sky" id="Sky_3emca"]
+sky_material = SubResource("ProceduralSkyMaterial_i0wiw")
+
+[sub_resource type="Environment" id="Environment_jqa0y"]
+background_mode = 2
+sky = SubResource("Sky_3emca")
+ambient_light_source = 3
+reflected_light_source = 2
+
+[node name="World" type="Node"]
+script = ExtResource("1_cmh7x")
+world_resource = ExtResource("2_gd4ef")
+chunk_scene = ExtResource("3_7iqs6")
+player_scene = ExtResource("1_oyxbq")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.819152, 0.32899, 0.469846, -7.16125e-08, -0.819152, 0.573576, 0.573576, -0.469846, -0.67101, 0, 0, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jqa0y")

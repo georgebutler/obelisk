@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="WorldSettings" load_steps=3 format=3 uid="uid://bsofaiisj7avc"]
+
+[ext_resource type="Script" path="res://resources/world_settings.gd" id="1_re31h"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_m1fpq"]
+noise_type = 0
+seed = 5
+frequency = 0.019
+
+[resource]
+script = ExtResource("1_re31h")
+chunk_size = 16
+resolution = 16
+noise_scale = 1.0
+height_scale = 5.0
+render_distance = 3
+noise = SubResource("FastNoiseLite_m1fpq")
